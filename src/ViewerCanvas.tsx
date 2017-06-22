@@ -69,11 +69,11 @@ export default class ViewerCanvas extends React.Component<ViewerCanvasProps, Vie
 
   handleMouseMove(e) {
     if (this.state.isMouseDown) {
-      let diffX = e.x - this.state.mouseX;
-      let diffY = e.y - this.state.mouseY;
+      let diffX = e.movementX;
+      let diffY = e.movementY;
       this.setState({
-        mouseX: e.x,
-        mouseY: e.y,
+        mouseX: this.props.left + diffX ,
+        mouseY: this.props.top + diffY,
       });
       this.props.onChangeImgState(this.props.width, this.props.height, this.props.top + diffY, this.props.left + diffX);
     }

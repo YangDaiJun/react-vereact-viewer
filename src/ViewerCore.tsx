@@ -198,6 +198,51 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     };
   }
 
+  loadImgWithOriSize(activeIndex) {
+    this.setContainerWidthHeight();
+    let imgSrc = '';
+    let images = this.props.images || [];
+    if (images.length > 0) {
+      imgSrc = images[activeIndex].src;
+    }
+    let img = new Image();
+    img.src = imgSrc;
+
+    this.setState({
+      activeIndex: activeIndex,
+      loading: true,
+    });
+    img.onload = () => {
+      let imgWidth = img.width;
+      let imgHeight = img.height;
+
+      let left = ( this.containerWidth - imgWidth ) / 2;
+      let top = (this.containerHeight - imgHeight - this.footerHeight) / 2;
+      this.setState({
+        activeIndex: activeIndex,
+        width: imgWidth,
+        height: imgHeight,
+        left: left,
+        top: top,
+        imageWidth: imgWidth,
+        imageHeight: imgHeight,
+        loading: false,
+        rotate: 0,
+        scaleX: 1,
+        scaleY: 1,
+      });
+
+    };
+    img.onerror = () => {
+      this.setState({
+        activeIndex: activeIndex,
+        imageWidth: 0,
+        imageHeight: 0,
+        loading: false,
+      });
+    };
+  }
+
   handleChangeImg(newIndex: number) {
     // let imgCenterXY2 = this.getImageCenterXY();
     // this.handleZoom(imgCenterXY2.x, imgCenterXY2.y, -1, 1);
@@ -251,6 +296,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       case ActionType.scaleY:
         this.handleScaleY(this.state.scaleY === 1 ? -1 : 1);
         break;
+      case ActionType.oriPic:
+        this.loadImgWithOriSize(this.state.activeIndex);
       default:
         break;
     }
@@ -269,9 +316,6 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   }
 
   handleZoom(targetX, targetY, direct, scale) {
-    let imgCenterXY = this.getImageCenterXY();
-    let diffX = targetX - imgCenterXY.x;
-    let diffY = targetY - imgCenterXY.y;
     let diffWidth = direct * this.state.width * scale;
     let diffHeight = direct * this.state.height * scale;
     // when image width is 0, set original width
@@ -283,8 +327,8 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     this.setState({
       width: this.state.width + diffWidth,
       height: this.state.height + diffHeight,
-      top: this.state.top + -diffHeight / 2 + -direct * diffY * scale,
-      left: this.state.left + -diffWidth / 2 + -direct * diffX * scale,
+      top: this.state.top  - diffHeight / 2 ,
+      left: this.state.left  - diffWidth / 2,
       loading: false,
     });
   }

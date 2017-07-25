@@ -26,6 +26,8 @@ interface ViewerProps {
   rotatable?: boolean;
   /** 是否显示变换按钮 */
   scalable?: boolean;
+  /** 查看原图最大高度，高于这个高度新页签打开 */
+  maxOriPicHeight?: number;
 }
 
 export default ViewerProps;

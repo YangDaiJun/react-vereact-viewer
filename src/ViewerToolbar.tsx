@@ -100,9 +100,10 @@ export default class ViewerToolbar extends React.Component<ViewerToolbarProps, a
     }
     if (this.props.changeable) {
       featureNodeArr = featureNodeArr.concat([
-        <li key="oriPic" className={`${this.props.prefixCls}-btn`} onClick={() => {this.handleAction(ActionType.oriPic);}}>
+        <li key="oriPic" className={`${this.props.prefixCls}-btn`}
+            onClick={() => {this.handleAction(ActionType.oriPic);}}>
           <Icon type={ActionType.oriPic}/>
-        </li>
+        </li>,
       ]);
     }
     return (

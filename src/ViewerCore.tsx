@@ -39,6 +39,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
     zoomable: true,
     rotatable: true,
     scalable: true,
+    maxOriPicHeight: 0,
   };
 
   private prefixCls: string;
@@ -168,7 +169,7 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
           });
           let imgCenterXY = this.getImageCenterXY();
           this.handleZoom(imgCenterXY.x, imgCenterXY.y, 1, 1);
-        }, 50);
+        }, 1000);
       }else {
         const [ width, height ] = this.getImgWidthHeight(imgWidth, imgHeight);
         let left = ( this.containerWidth - width ) / 2;
@@ -241,6 +242,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         loading: false,
       });
     };
+
+    if (0 !== this.props.maxOriPicHeight && img.height > this.props.maxOriPicHeight) {
+      window.open(img.src);
+    }
   }
 
   handleChangeImg(newIndex: number) {
@@ -269,9 +274,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
         }
         break;
       case ActionType.next:
-        if (this.state.activeIndex + 1 < this.props.images.length) {
-          this.handleChangeImg(this.state.activeIndex + 1);
+        let activeIndex = 0;
+        if (0 !== this.props.images.length) {
+           activeIndex = (this.state.activeIndex + 1) % this.props.images.length;
         }
+        this.handleChangeImg(activeIndex);
         break;
       case ActionType.zoomIn:
         let imgCenterXY = this.getImageCenterXY();

@@ -127,6 +127,7 @@ class App extends React.Component<any, Partial<State>> {
           activeIndex={this.state.activeIndex}
           attribute={false}
           container={inline ? this.container : null}
+          maxOriPicHeight={1000}
           />
         </div>
         <div className="footer">

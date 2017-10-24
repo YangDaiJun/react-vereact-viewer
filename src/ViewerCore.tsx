@@ -269,9 +269,11 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
   handleAction(type: ActionType) {
     switch (type) {
       case ActionType.prev:
-        if (this.state.activeIndex - 1 >= 0) {
-          this.handleChangeImg(this.state.activeIndex - 1);
+        let activeIndex1 = 0;
+        if (0 !== this.props.images.length) {
+          activeIndex1 = (this.state.activeIndex - 1 + this.props.images.length) % this.props.images.length;
         }
+        this.handleChangeImg(activeIndex1);
         break;
       case ActionType.next:
         let activeIndex = 0;
@@ -418,8 +420,10 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       default:
         break;
     }
+
     if (isFeatrue) {
       e.preventDefault();
+      e.stopPropagation();
     }
   }
 
@@ -495,6 +499,13 @@ export default class ViewerCore extends React.Component<ViewerProps, ViewerCoreS
       if (images.length > 0 && this.state.activeIndex >= 0) {
         activeImg = images[this.state.activeIndex];
       }
+    }
+
+    if (!activeImg) {
+      activeImg = {
+        src: '',
+        alt: '',
+      };
     }
 
     let className = `${this.prefixCls} ${this.prefixCls}-transition`;

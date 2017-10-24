@@ -1,6 +1,6 @@
 {
   "name": "@ali/react-viewer",
-  "version": "2.2.19",
+  "version": "2.2.25",
   "description": "react image viewer",
   "main": "dist/index",
   "scripts": {

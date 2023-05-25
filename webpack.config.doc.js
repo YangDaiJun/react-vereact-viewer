@@ -40,6 +40,9 @@ module.exports = function (webpackConfig) {
         new HtmlWebpackPlugin(conf)
     );
 
+    /**
+     * test2
+     */
     webpackConfig.plugins.some(function (plugin, i) {
         if (plugin instanceof webpack.optimize.CommonsChunkPlugin) {
             webpackConfig.plugins.splice(i, 1);

@@ -14,7 +14,7 @@ var conf = {
 
 
 /**
- * test1
+ * test1---test111
  */
 module.exports = function (webpackConfig) {
     webpackConfig.babel.plugins.push(['import', {

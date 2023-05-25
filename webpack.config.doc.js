@@ -14,7 +14,9 @@ var conf = {
 
 
 /**
- * test1
+ * test2
+ * @param webpackConfig
+ * @returns {*}
  */
 module.exports = function (webpackConfig) {
     webpackConfig.babel.plugins.push(['import', {
